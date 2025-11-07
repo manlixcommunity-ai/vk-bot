@@ -29,3 +29,19 @@ for event in longpoll.listen():
     except Exception as e:
         print("Error:", e)
         time.sleep(1)
+import os
+import threading
+from flask import Flask
+
+def keep_alive():
+    app = Flask(__name__)
+
+    @app.route('/')
+    def index():
+        return "VK Bot is running!"
+
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
+# Запускаем фейковый веб-сервер в отдельном потоке
+threading.Thread(target=keep_alive).start()
